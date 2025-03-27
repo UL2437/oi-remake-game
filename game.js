@@ -1338,9 +1338,9 @@ function checkCodeSubProblem(problemIndex, subProblemIndex) {
   // 在非 IOI 赛制下消耗时间点
   if (!isIOIContest) {
     timePoints--;
-    lastActions.push('check');
-    if (lastActions.length > 5) lastActions.shift();
   }
+  lastActions.push('check');
+  if (lastActions.length > 5) lastActions.shift();
 
   // 记录对拍/提交操作到日志
   logEvent(`${isIOIContest ? '提交' : '对拍'}第 ${problemIndex + 1} 题的第 ${subProblemIndex + 1} 个部分`, 'check');
