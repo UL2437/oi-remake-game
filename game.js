@@ -2815,9 +2815,9 @@ function calculateAward(contestType, score, prevScore = 0, prevScore2 = 0, prevS
   // 根据难度调整分数线
   const difficultyMultiplier = {
     'easy': 0.8,    // 简单难度分数线降低20%
-    'normal': 0.9,    // 普通难度保持不变
-    'hard': 1,    // 困难难度分数线提高20%
-    'expert': 1.2   // 专家难度分数线提高40%
+    'normal': 0.9,    // 普通难度分数线降低10%
+    'hard': 1,    // 困难难度分数线保持不变
+    'expert': 1.1   // 专家难度分数线提高10%
   }[gameDifficulty];
 
   let award = "";
