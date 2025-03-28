@@ -529,7 +529,7 @@ const eventSystem = {
       title: "娱乐时间",
       description: "每天反复想题写题的生活一定是很压抑的，你决定利用好你的娱乐时间，做一些你觉得有意义的事情。",
       options: [
-        { text: "你趁其他娱乐，想要偷学一会", effects: {}, nextEvent: "偷学" },
+        { text: "你趁其他人娱乐，想要偷学一会", effects: {}, nextEvent: "偷学" },
         { text: "你困得不行了，为什么不休息一会", effects: {}, nextEvent: "休息" },
         { text: "年少不知摸鱼好", effects: {}, nextEvent: "摸鱼" },
         { text: "打隔膜是一种很好的娱乐方式", effects: {}, nextEvent: "打隔膜" },
