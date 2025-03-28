@@ -1,4 +1,4 @@
-const moodLimit = 12
+const moodLimit = 12;
 
 // 初始化游戏状态
 let debugmode = false;
