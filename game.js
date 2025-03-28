@@ -1,3 +1,5 @@
+const moodLimit = 12
+
 // 初始化游戏状态
 let debugmode = false;
 let timePoints = 24; // 剩余时间点
@@ -747,7 +749,7 @@ const randomEvents = [
     name: "灵光一闪",
     description: "突然想到了一个好方法！",
     effect: (stats) => {
-      stats.mood = Math.min(10, stats.mood + 1);
+      stats.mood = Math.min(moodLimit, stats.mood + 1);
       return "心态值+1";
     },
     condition: (stats) => {
@@ -1046,7 +1048,7 @@ function calculateThinkSuccessRate(subProblem) {
   // 思维能力影响（每差1点降低5%）
   baseProb -= Math.max(0, subProblem.thinking - mapAttributeValue(playerStats.thinking)) * 0.05;
   // 心态影响（每差1点降低x^2%）
-  baseProb -= Math.pow(10 - mood, 2) * 0.01;
+  baseProb -= Math.pow(Math.min(10 - mood, 0), 2) * 0.01;
   return Math.max(0.3, Math.min(0.95, baseProb)); // 限制概率在30%-95%之间
 }
 
@@ -1055,7 +1057,7 @@ function calculateCodeSuccessRate(subProblem) {
   let baseProb = 1; // 基础成功率100%
   if (debugmode == true) return 1;
   // 心态影响（每差1点降低x^2%）
-  baseProb -= Math.pow(10 - mood, 2) * 0.01;
+  baseProb -= Math.pow(Math.min(10 - mood, 0), 2) * 0.01;
   // 细节影响（每差1点降低3%）
   baseProb -= Math.max(0, subProblem.detail - mapAttributeValue(playerStats.coding)) * 0.05;
   return Math.max(0.4, Math.min(0.95, baseProb)); // 限制概率在40%-95%之间
@@ -1067,7 +1069,7 @@ function calculateErrorRate(subProblem) {
   if (debugmode == true) return 0;
   baseProb += subProblem.trap * 0.05; // 每个陷阱增加5%
   baseProb -= playerStats.carefulness * 0.03; // 每点细心降低3%
-  baseProb += Math.pow(10 - mood, 2) * 0.01; // 心态影响
+  baseProb += Math.pow(Math.min(10 - mood, 0), 2) * 0.01; // 心态影响
   return Math.max(0, Math.min(0.8, baseProb)); // 限制在0%-80%之间
 }
 
@@ -1318,7 +1320,7 @@ function writeCodeSubProblem(problemIndex, subProblemIndex) {
     // 如果代码完成且有激励效果
     if (subProblem.inspire > 0) {
       let moodGain = subProblem.inspire;
-      mood = Math.min(10, mood + moodGain);
+      mood = Math.min(moodLimit, mood + moodGain);
       logEvent(`完成代码带来了激励效果，心态值提升${moodGain}点！`, 'code');
       document.getElementById("player-mood").textContent = mood;
     }
@@ -1368,7 +1370,7 @@ function checkCodeSubProblem(problemIndex, subProblemIndex) {
     // 对拍/提交成功
     const subProblem = subProblems[problemIndex][subProblemIndex];
     isCodeComplete[problemIndex][subProblemIndex] = true;
-    mood = Math.min(10, mood + (subProblem.inspire || 0));
+    mood = Math.min(moodLimit, mood + (subProblem.inspire || 0));
 
     logEvent(`${isIOIContest ? '提交' : '对拍'}成功！获得 ${subProblem.score} 分`, 'check');
     if (subProblem.inspire) {
@@ -1714,14 +1716,14 @@ function selectTrainingOption(option, isShop, eventType) {
           logEvent(`心态调整到7`, 'event');
         } else {
           // 其他情况正常增减心态值
-          mood = Math.max(0, Math.min(10, mood + value));
+          mood = Math.max(0, Math.min(moodLimit, mood + value));
           logEvent(`心态${value > 0 ? '+' : ''}${value}`, 'event');
           logEvent(`当前心态值：${mood}`, 'event');
         }
       } else if (key === 'determination') {
         playerStats.determination = Math.max(0, playerStats.determination + value);
       } else if (playerStats.hasOwnProperty(key)) {
-        playerStats[key] = Math.max(0, Math.min(key === 'mood' ? 10 : 20, playerStats[key] + value));
+        playerStats[key] = Math.max(0, Math.min(key === 'mood' ? 20 : 20, playerStats[key] + value));
       }
     });
 
@@ -1853,9 +1855,9 @@ function selectSubOption(option) {
   // 应用选择的效果
   Object.entries(option.effects).forEach(([key, value]) => {
     if (key === 'mood') {
-      mood = Math.max(0, Math.min(10, mood + value));
+      mood = Math.max(0, Math.min(moodLimit, mood + value));
     } else if (playerStats.hasOwnProperty(key)) {
-      playerStats[key] = Math.max(0, Math.min(10, playerStats[key] + value));
+      playerStats[key] = Math.max(0, Math.min(20, playerStats[key] + value));
     }
   });
 
