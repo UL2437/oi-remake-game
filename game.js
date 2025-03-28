@@ -871,6 +871,23 @@ function updateStatus() {
   } else {
     document.getElementById("current-problem").textContent = "未开始";
   }
+
+const difficultyNames = {
+    'easy': '简单',
+    'normal': '普通',
+    'hard': '困难',
+    'expert': '专家'
+  };
+  const difficultyColors = {
+    'easy': '#28a745',    // 绿色
+    'normal': '#17a2b8',  // 青色
+    'hard': '#ffc107',    // 黄色
+    'expert': '#dc3545'   // 红色
+  };
+  document.getElementById("player-stats-panel").querySelector("h3").innerHTML = 
+    `玩家属性 <br> <span style="color: ${difficultyColors[gameDifficulty]}; font-size: 0.9em;">[${difficultyNames[gameDifficulty]}难度]</span>`;
+
+
   document.getElementById("player-determination").textContent = playerStats.determination;
   document.getElementById("player-mood").textContent = mood;
   document.getElementById("player-dp").textContent = playerStats.dp;
