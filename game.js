@@ -1065,7 +1065,7 @@ function calculateThinkSuccessRate(subProblem) {
   // 思维能力影响（每差1点降低5%）
   baseProb -= Math.max(0, subProblem.thinking - mapAttributeValue(playerStats.thinking)) * 0.05;
   // 心态影响（每差1点降低x^2%）
-  baseProb -= Math.pow(Math.min(10 - mood, 0), 2) * 0.01;
+  baseProb -= Math.pow(Math.max(10 - mood, 0), 2) * 0.01;
   return Math.max(0.3, Math.min(0.95, baseProb)); // 限制概率在30%-95%之间
 }
 
@@ -1074,7 +1074,7 @@ function calculateCodeSuccessRate(subProblem) {
   let baseProb = 1; // 基础成功率100%
   if (debugmode == true) return 1;
   // 心态影响（每差1点降低x^2%）
-  baseProb -= Math.pow(Math.min(10 - mood, 0), 2) * 0.01;
+  baseProb -= Math.pow(Math.max(10 - mood, 0), 2) * 0.01;
   // 细节影响（每差1点降低3%）
   baseProb -= Math.max(0, subProblem.detail - mapAttributeValue(playerStats.coding)) * 0.05;
   return Math.max(0.4, Math.min(0.95, baseProb)); // 限制概率在40%-95%之间
@@ -1086,7 +1086,7 @@ function calculateErrorRate(subProblem) {
   if (debugmode == true) return 0;
   baseProb += subProblem.trap * 0.05; // 每个陷阱增加5%
   baseProb -= playerStats.carefulness * 0.03; // 每点细心降低3%
-  baseProb += Math.pow(Math.min(10 - mood, 0), 2) * 0.01; // 心态影响
+  baseProb += Math.pow(Math.max(10 - mood, 0), 2) * 0.01; // 心态影响
   return Math.max(0, Math.min(0.8, baseProb)); // 限制在0%-80%之间
 }
 
