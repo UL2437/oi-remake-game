@@ -1993,7 +1993,6 @@ function startContest(contestType) {
   currentProblem = 1;
 
   // 重置所有相关数组
-  problems = [];
   subProblems = [];
   thinkProgress = [];
   codeProgress = [];
@@ -2006,12 +2005,27 @@ function startContest(contestType) {
 
   totalProblems = config.problemRanges.length;
 
-  for (let i = 0; i < totalProblems; i++) {
-    const problem = selectProblemFromRange(
-      config.problemRanges[i].minLevel,
-      config.problemRanges[i].maxLevel
-    );
-    problems.push(problem);
+  while (true) {
+    problems = [];
+    let unique = true;
+    for (let i = 0; i < totalProblems; i++) {
+      const problem = selectProblemFromRange(
+        config.problemRanges[i].minLevel,
+        config.problemRanges[i].maxLevel
+      );
+      for (let p of problems) {
+        if (p.name == problem.name) {
+          unique = false;
+          break;
+        }
+      }
+      if (!unique) break;
+      problems.push(problem);
+    }
+    if (unique) break;
+  }
+
+  for (let problem of problems) {
     subProblems.push(problem.parts);
     thinkProgress.push(new Array(problem.parts.length).fill(0));
     codeProgress.push(new Array(problem.parts.length).fill(0));
