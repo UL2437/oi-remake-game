@@ -2489,7 +2489,7 @@ function handlePhaseTransition() {
     totalTrainingEvents = 4;
     startTrainingEvents();
   } else if (currentPhase === 5) {
-    if (playerStats.cspScore < 180) { // 三等奖及以下
+    if (playerStats.cspScore < 180 * difficultyMultiplier) { // 三等奖及以下
       showSkipContestEvent("由于CSP-S成绩未达到二等奖及以上", "WC", 6);
     } else {
       logEvent("WC比赛即将开始...", 'event');
@@ -2523,7 +2523,7 @@ function handlePhaseTransition() {
     totalTrainingEvents = 4;
     startTrainingEvents();
   } else if (currentPhase === 11) {
-    if (playerStats.noipScore < 180) { // 三等奖及以下
+    if (playerStats.noipScore < 180 * difficultyMultiplier) { // 三等奖及以下
       showSkipContestEvent("由于NOIP成绩未达到二等奖及以上", "APIO", 12);
     } else {
       logEvent("APIO比赛即将开始...", 'event');
@@ -2638,7 +2638,7 @@ function handlePhaseTransition() {
     totalTrainingEvents = 5;
     startTrainingEvents();
   } else if (currentPhase === 29) {
-    if (playerStats.cspScore < 180) {
+    if (playerStats.cspScore < 180 * difficultyMultiplier) {
       showSkipContestEvent("由于CSP-S成绩未达到二等奖及以上", "WC", 30);
     } else {
       logEvent("WC比赛即将开始...", 'event');
