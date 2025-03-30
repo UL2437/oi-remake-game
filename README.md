@@ -12,6 +12,7 @@
 ## 如何开始
 
 1. 直接访问：[游戏链接](https://Little09qwq.github.io/oi-remake-game)
+2. 你也可以在 [qoj](https://qoj.ac/files/Little09sLife/index.html) 访问一个由 qingyu 维护的版本。
 
 ## 游戏玩法
 
