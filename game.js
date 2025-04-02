@@ -486,6 +486,7 @@ const eventSystem = {
       title: "比赛",
       description: "你对这场比赛的质量十分满意，这确实是一场出的相当不错的比赛。不过他相当大的难度，让你感到有些力不从心。",
       options: [
+        { text: "比赛结束后，你发现这场比赛被 Unrated 了，你感到非常沮丧", effects: { mood: -2 } },
         { text: "得到提升", effects: { thinking: 2 } },
         { text: "得到提升", effects: { coding: 2 } },
         { text: "得到提升", effects: { ds: 2 } },
@@ -515,6 +516,7 @@ const eventSystem = {
       title: "比赛",
       description: "你意识到这是一场极其糟糕的比赛！你坚持认为这场比赛就是垃圾中的王者，不仅浪费时间还搞人心态。",
       options: [
+        { text: "比赛结束后，你发现这场比赛被 Unrated 了，你感到非常幸运", effects: { mood: 2 } },
         { text: "尽管如此，你还是从中得到了一些提升", effects: { coding: 1 } },
         { text: "尽管如此，你还是从中得到了一些提升", effects: { ds: 1 } },
         { text: "建议不会出题就不要出比赛，出题人纯纯智障", effects: { mood: -1 } },
@@ -1368,7 +1370,7 @@ function checkCodeSubProblem(problemIndex, subProblemIndex) {
   }
 
   // 获取当前部分分的错误率
-  const errorRate = errorRates[problemIndex][subProblemIndex];
+  let errorRate = errorRates[problemIndex][subProblemIndex];
   const random = Math.random();
 
   // 记录随机数和错误率到日志，方便调试
@@ -1376,13 +1378,23 @@ function checkCodeSubProblem(problemIndex, subProblemIndex) {
 
   if (random < errorRate) {
     // 对拍/提交失败
-    const subProblem = subProblems[problemIndex][subProblemIndex];
-    const fallbackAmount = subProblem.fallback + 1;
-    codeProgress[problemIndex][subProblemIndex] = Math.max(0, codeProgress[problemIndex][subProblemIndex] - fallbackAmount);
-
-    logEvent(`${isIOIContest ? '提交' : '对拍'}失败！代码进度-${fallbackAmount}`, 'check');
-    logEvent(`当前代码进度：${codeProgress[problemIndex][subProblemIndex]}/${calculateCodeTime(subProblem)}`, 'check');
-    logEvent(`当前心态值：${mood}`, 'check');
+    if (isIOIContest && Math.random() < 0.08) {
+      mood = Math.max(0, mood - 1);
+      document.getElementById('event-title').textContent = "提交系统服务器爆炸";
+      document.getElementById('random-event-description').textContent = "比赛 OJ 太不牛了，服务器支持不了这么多选手的提交，你的代码没有成功提交";
+      document.getElementById('event-effect').textContent = "心态-1";
+      document.getElementById("event-panel").style.display = "flex";
+      isEventActive = true;
+      logEvent(`服务器爆炸，提交失败，心态值-1`, 'check');
+    } else {
+      const subProblem = subProblems[problemIndex][subProblemIndex];
+      const fallbackAmount = subProblem.fallback + 1;
+      codeProgress[problemIndex][subProblemIndex] = Math.max(0, codeProgress[problemIndex][subProblemIndex] - fallbackAmount);
+  
+      logEvent(`${isIOIContest ? '提交' : '对拍'}失败！代码进度-${fallbackAmount}`, 'check');
+      logEvent(`当前代码进度：${codeProgress[problemIndex][subProblemIndex]}/${calculateCodeTime(subProblem)}`, 'check');
+      logEvent(`当前心态值：${mood}`, 'check');
+    }
   } else {
     // 对拍/提交成功
     const subProblem = subProblems[problemIndex][subProblemIndex];
