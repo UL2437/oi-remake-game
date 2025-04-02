@@ -819,7 +819,7 @@ function triggerRandomEvent(problemIndex, subProblemIndex) {
     if (event.condition(stats) && Math.random() < event.probability) {
       // 显示事件面板
       document.getElementById('event-title').textContent = event.name;
-      document.getElementById('event-description').textContent = event.description;
+      document.getElementById('random-event-description').textContent = event.description;
 
       // 应用效果
       const effectResult = event.effect(stats);

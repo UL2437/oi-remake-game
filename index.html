@@ -52,6 +52,10 @@
           <div class="changelog-content"
             style="display: none; max-height: 500px; overflow-y: auto; padding: 20px; background-color: #f8f9fa; border-radius: 8px; margin: 20px auto; text-align: left; max-width: 800px;">
             <div>
+              <h3 style="color: #4a90e2;">2024.4.1</h3>
+              <ul style="list-style-type: disc; padding-left: 20px;">
+                <li>修复随机事件描述不显示的 bug</li>
+              </ul>
               <h3 style="color: #4a90e2;">2024.3.27</h3>
               <ul style="list-style-type: disc; padding-left: 20px;">
                 <li>添加了难度选择，原先模式为目前"困难"模式</li>
@@ -180,7 +184,7 @@
     <div class="event-panel" id="event-panel">
       <div class="event-content">
         <h2 id="event-title"></h2>
-        <p id="event-description"></p>
+        <p id="random-event-description"></p>
         <p id="event-effect"></p>
         <button onclick="closeEvent()">继续</button>
       </div>
